@@ -35,6 +35,12 @@ Python 3.10+ , aucune dépendance externe.
 python -m dilemme etape1
 ```
 
+Étape 2 — tournoi avec GRIM et PAVLOV :
+
+```
+python -m dilemme etape2
+```
+
 Options : `--graine N`, `--parties N`, `--tours N`, `--contre-soi`
 (chaque stratégie joue aussi contre son double).
 

@@ -1,0 +1,20 @@
+Tournoi : 5 parties x 200 tours, graine=42, contre soi=False, bruit=0.0
+
+Score de la ligne contre la colonne (somme des parties)
+                  ALL-D    RANDOM  TIT-FOR-    TESTER      JOSS      GRIM    PAVLOV
+ALL-D                 -      3527      2015      2000      2012      2015      3500
+RANDOM              982         -      2516      2464      2338      1002      2494
+TIT-FOR-TAT        1990      2506         -      2500      2088      3000      3000
+TESTER             2000      2474      2500         -      2017      2005      2335
+JOSS               1992      2583      2113      2017         -      2133      2446
+GRIM               1990      3517      3000      2005      2133         -      3000
+PAVLOV             1000      2539      3000      2335      2331      3000         -
+
+Classement
+ 1. GRIM            15645   (2.607 pt/tour)
+ 2. TIT-FOR-TAT     15084   (2.514 pt/tour)
+ 3. ALL-D           15069   (2.511 pt/tour)
+ 4. PAVLOV          14205   (2.368 pt/tour)
+ 5. TESTER          13331   (2.222 pt/tour)
+ 6. JOSS            13284   (2.214 pt/tour)
+ 7. RANDOM          11796   (1.966 pt/tour)

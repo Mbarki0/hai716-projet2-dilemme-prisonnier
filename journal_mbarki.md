@@ -78,10 +78,58 @@ Attentes avant le tournoi :
   revient à C après chaque DD ;
 - son comportement contre RANDOM devrait être irrégulier.
 
-Le classement de l'étape 2 n'a pas encore été lancé au moment où ces attentes
-sont écrites.
+Le classement de l'étape 2 n'avait pas encore été lancé au moment où ces
+attentes ont été écrites et commitées.
+
+### Résultats du tournoi élargi
+
+Commande : `python -m dilemme etape2`
+
+| Rang | Stratégie | Score | Moyenne par tour |
+|---:|---|---:|---:|
+| 1 | GRIM | 15645 | 2,607 |
+| 2 | TIT-FOR-TAT | 15084 | 2,514 |
+| 3 | ALL-D | 15069 | 2,511 |
+| 4 | PAVLOV | 14205 | 2,368 |
+| 5 | TESTER | 13331 | 2,222 |
+| 6 | JOSS | 13284 | 2,214 |
+| 7 | RANDOM | 11796 | 1,966 |
+
+La sortie complète est conservée dans `resultats/etape2.txt`.
+
+![Classement de l'étape 2](captures/etape2.png)
+
+### Comparaison avec l'étape 1
+
+Dans la population de base, ALL-D était première et TIT-FOR-TAT deuxième.
+Après l'ajout de GRIM et PAVLOV, GRIM termine première, TIT-FOR-TAT reste
+deuxième et ALL-D descend à la troisième place. Les scores totaux des deux
+tournois ne sont pas directement comparables, car chaque stratégie rencontre
+deux adversaires supplémentaires à l'étape 2. Les rangs et les moyennes par
+tour sont donc plus utiles pour l'analyse.
+
+GRIM obtient 3000 points contre TIT-FOR-TAT et 3000 contre PAVLOV : les trois
+stratégies maintiennent la coopération pendant les cinq parties. Contre
+ALL-D, GRIM marque 1990 points et ALL-D 2015. Elle subit la première trahison,
+puis répond par D jusqu'à la fin, ce qui limite l'exploitation. Contre JOSS,
+GRIM ne marque que 2133 points : une trahison occasionnelle de JOSS suffit à
+déclencher une punition définitive. Ces observations correspondent aux
+attentes écrites avant le tournoi.
+
+PAVLOV coopère parfaitement avec TIT-FOR-TAT et GRIM, avec 3000 points dans
+chaque confrontation. En revanche, elle ne marque que 1000 points contre
+ALL-D, qui en obtient 3500. Leur partie alterne entre CD et DD : après DD,
+PAVLOV revient à C et se fait de nouveau exploiter. Cette faiblesse explique
+sa quatrième place malgré ses bonnes coopérations.
+
+L'arrivée de deux stratégies coopératives profite également à TIT-FOR-TAT,
+qui obtient 3000 points contre chacune. Le passage d'ALL-D de la première à
+la troisième place confirme que le vainqueur dépend fortement de la
+population du tournoi.
+
+Les 11 tests passent après l'ajout des deux stratégies.
 
 ## 4. Prochaine étape
 
-Commiter les deux stratégies et leurs tests, puis seulement après lancer le
-tournoi élargi et comparer son classement à celui de l'étape 1.
+Écrire et commiter la prédiction concernant l'horizon inconnu avant de
+modifier le moteur ou de lancer cette expérience.
