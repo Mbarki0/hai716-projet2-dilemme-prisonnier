@@ -114,10 +114,18 @@ Partie réalisée par Mohammed M'BARKI (voir son journal et sa branche `mbarki`)
 
 Pour chaque modification : prédiction écrite **avant** de lancer, puis résultat, puis explication de l'écart.
 
-### Modification 1 : _…_
+### Modification 1 : bruit (5 %)
 
-- Justification du choix :
+Commande : `python -m dilemme etape1 --bruit 0.05`
+
+- Justification du choix : vérifier si une erreur de coup casse la
+  coopération de TFT, comme le montre le cours 4 (diapositive « le bruit »).
 - Prédiction (avant exécution) :
+  - TFT contre TFT : après une erreur, les deux se punissent en boucle.
+  - ALL-D est un peu gêné : quand son D devient C il gagne moins, mais les
+    erreurs des autres lui donnent parfois 5.
+  - RANDOM ne change pas beaucoup : il joue déjà au hasard.
+  - Classement : l'écart entre ALL-D et TFT va grandir, ALL-D reste 1er.
 - Résultat :
 - Écart et explication :
 
