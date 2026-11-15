@@ -4,7 +4,7 @@ import unittest
 from dilemme.jeu import C, D, jouer_partie
 from dilemme.strategies import (STRATEGIES_COURS, AllD, Grim, Joss, Pavlov,
                                 Tester, TitForTat, fabriques)
-from dilemme.tournoi import ConfigTournoi, lancer_tournoi
+from dilemme.tournoi import ConfigTournoi, ResultatTournoi, lancer_tournoi
 
 
 def partie(a, b, n=10, graine=0):
@@ -82,6 +82,38 @@ class TestTournoi(unittest.TestCase):
         r1 = lancer_tournoi(fabriques(STRATEGIES_COURS), ConfigTournoi(graine=1))
         r2 = lancer_tournoi(fabriques(STRATEGIES_COURS), ConfigTournoi(graine=2))
         self.assertNotEqual(r1.scores, r2.scores)
+
+
+class TestHorizonInconnu(unittest.TestCase):
+    def test_continuation_zero_arrete_apres_un_tour(self):
+        r = jouer_partie(AllD(), AllD(), 200, random.Random(0),
+                         continuation=0.0)
+        self.assertEqual(r.nb_tours, 1)
+        self.assertEqual((r.score_a, r.score_b), (2, 2))
+
+    def test_probability_de_continuation_invalide(self):
+        with self.assertRaisesRegex(ValueError, "continuation"):
+            jouer_partie(AllD(), AllD(), 200, random.Random(0),
+                         continuation=1.0)
+
+    def test_horizon_inconnu_reproductible(self):
+        cfg = ConfigTournoi(graine=7, continuation=0.9)
+        r1 = lancer_tournoi(fabriques(STRATEGIES_COURS), cfg)
+        r2 = lancer_tournoi(fabriques(STRATEGIES_COURS), cfg)
+        self.assertEqual(r1.scores, r2.scores)
+        self.assertEqual(r1.tours, r2.tours)
+
+    def test_classement_utilise_la_moyenne_par_tour(self):
+        cfg = ConfigTournoi(continuation=0.5)
+        resultat = ResultatTournoi(
+            config=cfg,
+            noms=["A", "B"],
+            scores={"A": {"A": 0, "B": 100},
+                    "B": {"A": 30, "B": 0}},
+            tours={"A": {"A": 0, "B": 100},
+                   "B": {"A": 10, "B": 0}},
+        )
+        self.assertEqual(resultat.classement()[0][0], "B")
 
 
 if __name__ == "__main__":

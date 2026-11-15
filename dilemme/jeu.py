@@ -35,7 +35,8 @@ def _inverser(coup: str) -> str:
 
 
 def jouer_partie(strat_a, strat_b, nb_tours: int, rng: random.Random,
-                 gains: dict = GAINS_DILEMME, bruit: float = 0.0) -> ResultatPartie:
+                 gains: dict = GAINS_DILEMME, bruit: float = 0.0,
+                 continuation: float | None = None) -> ResultatPartie:
     """Fait jouer `nb_tours` tours entre deux stratégies.
 
     Les deux joueurs choisissent simultanément : chacun ne reçoit que
@@ -44,14 +45,24 @@ def jouer_partie(strat_a, strat_b, nb_tours: int, rng: random.Random,
 
     `bruit` : probabilité que chaque coup soit inversé après le choix de la
     stratégie. L'historique enregistre le coup réellement joué.
+
+    Si `continuation` est renseigné, la partie joue au moins un tour puis
+    continue après chaque tour avec cette probabilité. `nb_tours` n'est alors
+    pas utilisé comme limite.
     """
+    if nb_tours <= 0:
+        raise ValueError("le nombre de tours doit être strictement positif")
+    if continuation is not None and not 0 <= continuation < 1:
+        raise ValueError("la probabilité de continuation doit être dans [0, 1[")
+
     strat_a.reinitialiser(random.Random(rng.random()))
     strat_b.reinitialiser(random.Random(rng.random()))
     # Générateur séparé pour le bruit : bruit=0 donne exactement les mêmes
     # parties qu'avant l'ajout de cette option.
     rng_bruit = random.Random(rng.random())
+    rng_horizon = random.Random(rng.random())
     res = ResultatPartie()
-    for _ in range(nb_tours):
+    while True:
         # Copies : une stratégie ne peut pas modifier l'historique.
         coup_a = strat_a.jouer(list(res.coups_a), list(res.coups_b))
         coup_b = strat_b.jouer(list(res.coups_b), list(res.coups_a))
@@ -67,4 +78,10 @@ def jouer_partie(strat_a, strat_b, nb_tours: int, rng: random.Random,
         res.coups_b.append(coup_b)
         res.score_a += g_a
         res.score_b += g_b
+
+        if continuation is None:
+            if res.nb_tours >= nb_tours:
+                break
+        elif rng_horizon.random() >= continuation:
+            break
     return res

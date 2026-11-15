@@ -21,13 +21,17 @@ def main() -> None:
                    help="chaque stratégie joue aussi contre son double")
     p.add_argument("--bruit", type=float, default=0.0,
                    help="probabilité d'inverser chaque coup, ex. 0.05")
+    p.add_argument("--continuation", type=float,
+                   help="probabilité de continuer après chaque tour, ex. 0.995")
     args = p.parse_args()
     if not 0 <= args.bruit <= 1:
         p.error("--bruit doit être entre 0 et 1")
+    if args.continuation is not None and not 0 <= args.continuation < 1:
+        p.error("--continuation doit être entre 0 inclus et 1 exclu")
 
     config = ConfigTournoi(nb_parties=args.parties, nb_tours=args.tours,
                            graine=args.graine, contre_soi=args.contre_soi,
-                           bruit=args.bruit)
+                           bruit=args.bruit, continuation=args.continuation)
     res = lancer_tournoi(fabriques(POPULATIONS[args.etape]), config)
     print(formater_resultats(res))
 
