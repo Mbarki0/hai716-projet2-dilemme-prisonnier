@@ -97,6 +97,11 @@ Quand chaque stratégie joue aussi contre elle-même (`--contre-soi`), TFT
 gagne : TFT contre TFT = 3000, ALL-D contre ALL-D = 2000, donc TFT passe à
 12084 et ALL-D à 11554.
 
+En 1980, il y avait 15 participants, dont beaucoup de stratégies gentilles.
+Dans mon tournoi, il n'y a que 5 stratégies, et seulement une est gentille :
+TIT-FOR-TAT. TFT n'a donc aucune autre stratégie avec qui coopérer, alors
+qu'en 1980 il en avait beaucoup. C'est pour ça qu'ALL-D gagne chez moi.
+
 ---
 
 ## 4. Étape 2 — nouvelles stratégies
