@@ -28,13 +28,13 @@ avec un bruit de 5 %.
 
 ## 2. Compréhension de la population de base
 
-| Stratégie | Règle |
-|---|---|
-| ALL-D | joue toujours D |
-| RANDOM | choisit C ou D avec la même probabilité |
-| TIT-FOR-TAT | commence par C puis copie le dernier coup adverse |
-| TESTER | commence par D ; passe à TIT-FOR-TAT si l'adversaire riposte, sinon répète C, C, D |
-| JOSS | suit TIT-FOR-TAT, mais remplace parfois C par D avec une probabilité de 10 % |
+| Stratégie | Règle et origine | Matchups favorables | Matchups défavorables |
+|---|---|---|---|
+| ALL-D | Stratégie de référence du cours ; joue toujours D. | Exploite les stratégies qui continuent à coopérer. | Obtient seulement 2 points par tour contre elle-même et ne profite pas des coopérations durables. |
+| RANDOM | Témoin aléatoire du cours ; choisit C ou D avec la même probabilité. | Son imprévisibilité peut gêner les stratégies qui cherchent un motif. | ALL-D l'exploite et une première trahison déclenche la punition de GRIM. |
+| TIT-FOR-TAT | Stratégie d'Anatol Rapoport présentée dans le cours ; commence par C puis copie le dernier coup adverse. | Coopère durablement avec les stratégies gentilles et réciproques. | Subit la première trahison et peut entrer dans des représailles avec une stratégie agressive ou bruitée. |
+| TESTER | Stratégie du cours ; commence par D, passe à TIT-FOR-TAT si l'adversaire riposte, sinon répète C, C, D. | Repère et exploite un adversaire qui ne punit pas. | Une stratégie punitive répond à son premier D et empêche cette exploitation. |
+| JOSS | Variante probabiliste de TIT-FOR-TAT présentée dans le cours ; remplace parfois C par D avec une probabilité de 10 %. | Profite parfois d'un coopérateur grâce à ses trahisons ponctuelles. | Ses trahisons déclenchent des représailles, en particulier la punition définitive de GRIM. |
 
 Avec la population de base et sans confrontation contre soi, ALL-D termine
 premier et TIT-FOR-TAT deuxième. Ce résultat diffère du tournoi historique
@@ -169,7 +169,62 @@ pour comparer équitablement les stratégies.
 Cette prédiction est écrite avant la modification du moteur et avant le
 premier lancement du tournoi à horizon inconnu.
 
-## 5. Prochaine étape
+### Résultats à horizon inconnu
 
-Commiter cette prédiction, puis implémenter l'horizon inconnu et ses tests
-sans encore interpréter de résultats non observés.
+Commande : `python -m dilemme etape2 --continuation 0.995`
+
+| Rang | Stratégie | Score total | Moyenne par tour | Tours joués |
+|---:|---|---:|---:|---:|
+| 1 | GRIM | 14501 | 2,637 | 5500 |
+| 2 | TIT-FOR-TAT | 15553 | 2,524 | 6163 |
+| 3 | PAVLOV | 13039 | 2,490 | 5236 |
+| 4 | ALL-D | 11901 | 2,312 | 5148 |
+| 5 | TESTER | 11990 | 2,220 | 5401 |
+| 6 | JOSS | 13032 | 2,180 | 5978 |
+| 7 | RANDOM | 9912 | 1,943 | 5102 |
+
+La sortie complète est conservée dans
+`resultats/horizon_inconnu.txt`.
+
+![Classement avec horizon inconnu](captures/horizon_inconnu.png)
+
+Le classement utilise bien la moyenne par tour. Le score total ne serait pas
+équitable ici : par exemple, TIT-FOR-TAT a joué 6163 tours contre 5148 pour
+ALL-D. Cela explique aussi pourquoi GRIM est classée première malgré un score
+total inférieur à celui de TIT-FOR-TAT.
+
+GRIM et TIT-FOR-TAT restent aux deux premières places, comme prévu. Les
+rencontres coopératives conservent une moyenne de 3 points par tour :
+TIT-FOR-TAT contre PAVLOV dure 1635 tours, et GRIM contre PAVLOV 638 tours.
+La longueur variable ne détruit donc pas leur coopération.
+
+En revanche, l'idée que les parties courtes avantageraient globalement ALL-D
+et TESTER n'est pas confirmée. PAVLOV monte de la quatrième à la troisième
+place et ALL-D descend de la troisième à la quatrième. Les durées tirées au
+sort n'ont pas le même poids selon les adversaires : la rencontre très
+favorable à ALL-D contre PAVLOV ne dure que 552 tours, tandis que ses
+rencontres proches de 2 points par tour contre JOSS et TESTER durent
+respectivement 1447 et 1168 tours. Ce tirage réduit sa moyenne générale.
+
+PAVLOV reste bien vulnérable à ALL-D : elle n'obtient que 548 points contre
+1938, car elle revient à C après chaque DD. Sa troisième place vient surtout
+de ses longues coopérations avec TIT-FOR-TAT et des autres confrontations de
+ce tirage. Les écarts avec l'étape 2 restent donc limités, mais les rangs
+intermédiaires changent à cause des durées variables.
+
+Les 15 tests passent après l'ajout de l'horizon inconnu, notamment les tests
+de reproductibilité, de validation de `w` et de classement par moyenne.
+
+## 5. Impasses et corrections
+
+- Sous PowerShell, la première redirection de la sortie de l'étape 2 avait
+  produit un fichier UTF-16. Je l'ai converti en UTF-8 pour qu'il soit lisible
+  de la même façon sur les différentes plateformes.
+- Avec des parties de longueurs différentes, le classement initial par score
+  total favorisait les stratégies ayant joué davantage de tours. J'ai donc
+  compté les tours réellement joués et utilisé les points par tour pour le
+  classement à horizon inconnu.
+
+Le tournoi de base, le tournoi élargi et l'expérience à horizon inconnu sont
+reproductibles avec la graine 42. Les commandes nécessaires figurent dans le
+README.

@@ -1,4 +1,4 @@
-﻿Tournoi : 5 parties, horizon inconnu w=0.995, graine=42, contre soi=False, bruit=0.0
+Tournoi : 5 parties, horizon inconnu w=0.995, graine=42, contre soi=False, bruit=0.0
 
 Score de la ligne contre la colonne (somme des parties)
                   ALL-D    RANDOM  TIT-FOR-    TESTER      JOSS      GRIM    PAVLOV

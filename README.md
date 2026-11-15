@@ -41,14 +41,25 @@ python -m dilemme etape1
 python -m dilemme etape2
 ```
 
-Options : `--graine N`, `--parties N`, `--tours N`, `--contre-soi`
-(chaque stratégie joue aussi contre son double).
+Options générales : `--graine N`, `--parties N`, `--tours N`,
+`--contre-soi` (chaque stratégie joue aussi contre son double) et
+`--bruit P` (probabilité d'inverser chaque coup).
 
 Étape 3 — bruit (chaque coup inversé avec une probabilité de 5 %) :
 
 ```
 python -m dilemme etape1 --bruit 0.05
 ```
+
+Étape 3 — horizon inconnu (durée moyenne de 200 tours) :
+
+```
+python -m dilemme etape2 --continuation 0.995
+```
+
+L'option `--continuation W` remplace la durée fixe par une probabilité `W`
+de poursuivre la partie après chaque tour. Le classement est alors établi
+sur la moyenne de points par tour.
 
 ## Tests
 
