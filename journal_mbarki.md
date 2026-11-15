@@ -129,7 +129,47 @@ population du tournoi.
 
 Les 11 tests passent après l'ajout des deux stratégies.
 
-## 4. Prochaine étape
+## 4. Étape 3 - horizon inconnu
 
-Écrire et commiter la prédiction concernant l'horizon inconnu avant de
-modifier le moteur ou de lancer cette expérience.
+### Choix du paramètre
+
+Après chaque tour, la partie continuera avec une probabilité `w = 0,995` et
+s'arrêtera avec une probabilité `1 - w = 0,005`. Une partie comportera donc
+toujours au moins un tour, mais sa longueur ne sera plus connue à l'avance.
+
+J'ai choisi cette valeur pour conserver une durée moyenne comparable aux 200
+tours du tournoi de base :
+
+`1 / (1 - 0,995) = 200` tours en moyenne.
+
+Les parties pourront malgré tout être beaucoup plus courtes ou plus longues
+que 200 tours. La graine 42 sera conservée pour retrouver les mêmes durées et
+les mêmes résultats lors d'une nouvelle exécution.
+
+Comme les stratégies risquent de ne pas jouer exactement le même nombre de
+tours au total, le classement devra utiliser la moyenne de points par tour.
+Les scores totaux seront conservés dans la sortie, mais ils ne suffiront pas
+pour comparer équitablement les stratégies.
+
+### Prédictions avant l'expérience
+
+- GRIM, TIT-FOR-TAT et PAVLOV devraient rester fortes lorsqu'elles se
+  rencontrent, car elles peuvent conserver une coopération à 3 points par
+  tour quelle que soit la longueur de la partie.
+- Les parties très courtes devraient parfois favoriser ALL-D et TESTER. Leur
+  première trahison pèsera davantage si la partie s'arrête avant que
+  l'adversaire ait le temps de réagir.
+- TIT-FOR-TAT et GRIM devraient rester proches du haut du classement, mais
+  l'ordre exact pourrait changer à cause des durées variables.
+- PAVLOV devrait rester pénalisée contre ALL-D, qui l'exploite un tour sur
+  deux.
+- Les différences avec l'étape 2 devraient rester modérées, puisque la durée
+  moyenne choisie reste égale à 200 tours.
+
+Cette prédiction est écrite avant la modification du moteur et avant le
+premier lancement du tournoi à horizon inconnu.
+
+## 5. Prochaine étape
+
+Commiter cette prédiction, puis implémenter l'horizon inconnu et ses tests
+sans encore interpréter de résultats non observés.
