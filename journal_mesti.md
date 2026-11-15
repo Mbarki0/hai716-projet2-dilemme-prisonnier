@@ -19,7 +19,7 @@
 | Gains (CC, CD, DC, DD) | (3,3), (0,5), (5,0), (2,2) | matrice imposée par l'énoncé |
 | Graine | 42 | fixée pour rejouer le tournoi à l'identique |
 | Contre son double | non (par défaut) | l'énoncé dit « chaque stratégie affronte chaque autre » ; testé aussi avec `--contre-soi` |
-| Modifications (étape 3) | bruit 5 % (moi) + sélection (M’BARKI) | regarde ce que les trahisons de JOSS font à TFT |
+| Modifications (étape 3) | bruit 5 % (moi) + horizon inconnu (M’BARKI) | bruit : vérifier si des erreurs de coup cassent la coopération de TFT, comme les trahisons de JOSS ; horizon inconnu : voir M'BARKI |
 
 Reproductibilité : chaque partie a son propre générateur aléatoire, dérivé de
 (graine, paire de stratégies, numéro de partie). Ajouter une stratégie ne
@@ -79,7 +79,7 @@ TIT-FOR-TAT passe 1er (12084) devant ALL-D (11554).
 Matchs contre son double : TFT/TFT = 3000, ALL-D/ALL-D = 2000,
 TESTER/TESTER = 2000, JOSS/JOSS = 2037, RANDOM/RANDOM = 2574.
 
-Tests unitaires : `python -m unittest -v` → 7 tests OK.
+Tests unitaires : `python -m unittest -v` → 7 tests OK à l'étape 1, 9 après l'ajout du bruit (étape 3).
 
 ![Classement étape 1](captures/etape1.png)
 
