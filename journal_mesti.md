@@ -34,10 +34,10 @@ change donc pas les tirages des autres paires.
 | Stratégie | Règle | Origine | Devrait bien jouer contre | Devrait mal jouer contre |
 |---|---|---|---|---|
 | ALL-D | toujours D | stratégie « rationnelle » par récurrence à rebours | les naïfs, RANDOM | elle-même, TFT (gain 2 au lieu de 3) |
-| RANDOM | C ou D à 50 % | témoin | _à compléter_ | _à compléter_ |
-| TIT-FOR-TAT | C au tour 1, puis copie le dernier coup adverse | Rapoport, vainqueur d'Axelrod 1980 | _à compléter_ | _à compléter_ |
-| TESTER | D au tour 1 ; si l'adversaire riposte → TFT, sinon cycle C, C, D | cours 4 | _à compléter_ | _à compléter_ |
-| JOSS | TFT, mais remplace C par D une fois sur dix | cours 4 | _à compléter_ | _à compléter_ |
+| RANDOM | C ou D à 50 % | témoin | TFT (2516) : TFT lui renvoie ses C | ALL-D (982) : ses C sont exploités, gain 0 |
+| TIT-FOR-TAT | C au tour 1, puis copie le dernier coup adverse | Rapoport, vainqueur d'Axelrod 1980 | les gentils, elle-même (3000) : coopération à 3 par tour | ALL-D (1990) : perd le 1er tour ; JOSS (2088) : représailles en écho |
+| TESTER | D au tour 1 ; si l'adversaire riposte → TFT, sinon cycle C, C, D | cours 4 | les naïfs qui ne ripostent pas (exploités par le cycle) ; TFT (2500) | ALL-D (2000) et JOSS (2017) : trahisons mutuelles |
+| JOSS | TFT, mais remplace C par D une fois sur dix | cours 4 | RANDOM (2583) : ses trahisons surprises rapportent 5 | ALL-D (1992) ; TESTER (2017) : ses trahisons déclenchent des représailles |
 
 **Choix d'interprétation pour TESTER** : le cours ne dit pas quand on vérifie
 la riposte. J'ai retenu : dès que l'adversaire joue D une fois, TESTER passe
@@ -45,7 +45,7 @@ définitivement en TIT-FOR-TAT ; sinon il enchaîne C, C, D à partir du tour 2.
 
 ### Nouvelles stratégies (étape 2)
 
-_à compléter_
+Partie réalisée par Mohammed M'BARKI (voir son journal et sa branche `mbarki`).
 
 ---
 
@@ -152,12 +152,9 @@ Commande : `python -m dilemme etape1 --bruit 0.05`
   - Avec le bruit, TFT trahit au hasard comme JOSS : leurs scores deviennent
     presque égaux (9215 et 9214).
 
-### Modification 2 : _…_
+### Modification 2
 
-- Justification du choix :
-- Prédiction (avant exécution) :
-- Résultat :
-- Écart et explication :
+Partie réalisée par Mohammed M'BARKI (voir son journal et sa branche `mbarki`).
 
 ---
 
