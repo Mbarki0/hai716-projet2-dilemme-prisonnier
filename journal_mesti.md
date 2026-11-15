@@ -126,8 +126,31 @@ Commande : `python -m dilemme etape1 --bruit 0.05`
     erreurs des autres lui donnent parfois 5.
   - RANDOM ne change pas beaucoup : il joue déjà au hasard.
   - Classement : l'écart entre ALL-D et TFT va grandir, ALL-D reste 1er.
-- Résultat :
+- Résultat (fichiers `resultats/bruit.txt` et `resultats/bruit_contre_soi.txt`) :
+
+  | | Sans bruit | Bruit 5 % | Bruit 5 % + contre-soi |
+  |---|---|---|---|
+  | ALL-D | 9554 (1er) | 10043 (1er) | 12074 (1er) |
+  | TIT-FOR-TAT | 9084 (2e) | 9215 (2e) | 11664 (2e) |
+  | JOSS | 8705 (4e) | 9214 (3e) | 11491 (4e) |
+  | TESTER | 8991 (3e) | 9199 (4e) | 11609 (3e) |
+  | RANDOM | 8300 (5e) | 8424 (5e) | 10990 (5e) |
+
+  TFT contre TFT : 3000 sans bruit, 2449 avec bruit.
+
+  ![Bruit 5 %](captures/bruit.png)
+
 - Écart et explication :
+  - Juste : l'écart ALL-D / TFT grandit (470 → 828) et ALL-D reste 1er.
+  - Juste : TFT contre TFT se punissent en boucle, ils perdent 551 points
+    (3000 → 2449). Du coup, avec `--contre-soi`, TFT ne passe plus 1er
+    comme sans bruit : c'est ALL-D qui gagne.
+  - Juste : RANDOM change peu.
+  - Faux : ALL-D n'est pas gêné, il gagne +489 points. Quand ALL-D joue C par
+    erreur, TFT copie ce C au tour suivant et ALL-D marque 5 (0 + 5 au lieu
+    de 2 + 2). Les erreurs de TFT lui donnent aussi des 5.
+  - Avec le bruit, TFT trahit au hasard comme JOSS : leurs scores deviennent
+    presque égaux (9215 et 9214).
 
 ### Modification 2 : _…_
 
