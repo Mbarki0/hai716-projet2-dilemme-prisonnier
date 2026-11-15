@@ -2,8 +2,8 @@ import random
 import unittest
 
 from dilemme.jeu import C, D, jouer_partie
-from dilemme.strategies import (STRATEGIES_COURS, AllD, Joss, Tester,
-                                TitForTat, fabriques)
+from dilemme.strategies import (STRATEGIES_COURS, AllD, Grim, Joss, Pavlov,
+                                Tester, TitForTat, fabriques)
 from dilemme.tournoi import ConfigTournoi, lancer_tournoi
 
 
@@ -39,6 +39,23 @@ class TestPartie(unittest.TestCase):
         j.reinitialiser(random.Random(1))
         n = sum(j.jouer([], [C]) == D for _ in range(10000))
         self.assertTrue(900 < n < 1100)
+
+
+class TestNouvellesStrategies(unittest.TestCase):
+    def test_grim_ne_pardonne_pas_une_trahison(self):
+        grim = Grim()
+        self.assertEqual(grim.jouer([], []), C)
+        self.assertEqual(grim.jouer([C, C], [C, C]), C)
+        self.assertEqual(grim.jouer([C, C], [C, D]), D)
+        self.assertEqual(grim.jouer([C, C, D], [C, D, C]), D)
+
+    def test_pavlov_applique_win_stay_lose_shift(self):
+        pavlov = Pavlov()
+        self.assertEqual(pavlov.jouer([], []), C)
+        self.assertEqual(pavlov.jouer([C], [C]), C)
+        self.assertEqual(pavlov.jouer([C], [D]), D)
+        self.assertEqual(pavlov.jouer([D], [C]), D)
+        self.assertEqual(pavlov.jouer([D], [D]), C)
 
 
 class TestBruit(unittest.TestCase):

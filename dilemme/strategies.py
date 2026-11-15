@@ -92,6 +92,29 @@ class Tester(Strategie):
 STRATEGIES_COURS = [AllD, Random, TitForTat, Tester, Joss]
 
 
+# --- Stratégies ajoutées pour l'étape 2 -----------------------------------
+
+class Grim(Strategie):
+    """Coopère jusqu'à la première trahison adverse, puis trahit toujours."""
+    nom = "GRIM"
+
+    def jouer(self, mes_coups, coups_adv):
+        return D if D in coups_adv else C
+
+
+class Pavlov(Strategie):
+    """Win-Stay, Lose-Shift : C après CC ou DD, D après CD ou DC."""
+    nom = "PAVLOV"
+
+    def jouer(self, mes_coups, coups_adv):
+        if not mes_coups:
+            return C
+        return C if mes_coups[-1] == coups_adv[-1] else D
+
+
+STRATEGIES_ETAPE2 = STRATEGIES_COURS + [Grim, Pavlov]
+
+
 def fabriques(classes) -> dict:
     """nom -> constructeur, pour lancer_tournoi."""
     return {cls.nom: cls for cls in classes}

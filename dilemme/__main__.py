@@ -2,11 +2,12 @@
 
 import argparse
 
-from .strategies import STRATEGIES_COURS, fabriques
+from .strategies import STRATEGIES_COURS, STRATEGIES_ETAPE2, fabriques
 from .tournoi import ConfigTournoi, formater_resultats, lancer_tournoi
 
 POPULATIONS = {
     "etape1": STRATEGIES_COURS,
+    "etape2": STRATEGIES_ETAPE2,
 }
 
 
