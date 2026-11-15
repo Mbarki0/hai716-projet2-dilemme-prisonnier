@@ -1,0 +1,16 @@
+Tournoi : 5 parties x 200 tours, graine=42, contre soi=True
+
+Score de la ligne contre la colonne (somme des parties)
+                  ALL-D    RANDOM  TIT-FOR-    TESTER      JOSS
+ALL-D              2000      3527      2015      2000      2012
+RANDOM              982      2574      2516      2464      2338
+TIT-FOR-TAT        1990      2506      3000      2500      2088
+TESTER             2000      2474      2500      2000      2017
+JOSS               1992      2583      2113      2017      2037
+
+Classement
+ 1. TIT-FOR-TAT     12084   (2.417 pt/tour)
+ 2. ALL-D           11554   (2.311 pt/tour)
+ 3. TESTER          10991   (2.198 pt/tour)
+ 4. RANDOM          10874   (2.175 pt/tour)
+ 5. JOSS            10742   (2.148 pt/tour)

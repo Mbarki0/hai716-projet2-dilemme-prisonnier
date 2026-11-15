@@ -2,10 +2,10 @@
 
 Tournoi du dilemme du prisonnier itéré.
 
-## Auteur
+## Auteurs
 
-Mohammed M'BARKI
-Mohamed MESTI
+Mohammed M'BARKI — journal : [journal_mbarki.md](journal_mbarki.md)
+Mohamed MESTI — journal : [journal_mesti.md](journal_mesti.md)
 
 ## Objectif
 
@@ -13,15 +13,39 @@ Construire un moteur de tournoi permettant de faire s'affronter différentes
 stratégies du dilemme du prisonnier itéré, puis étudier l'effet de nouvelles
 stratégies et de modifications du protocole expérimental.
 
-## État du projet
+## Organisation du code
 
-Initialisation du dépôt et analyse de l'énoncé.
+```
+dilemme/
+  jeu.py         matrice des gains et moteur d'une partie
+  strategies.py  stratégies (interface reinitialiser / jouer)
+  tournoi.py     tournoi tous contre tous, classement, affichage
+  __main__.py    ligne de commande
+tests/           tests unitaires
+resultats/       sorties des tournois
+```
+
+Python 3.10+ , aucune dépendance externe.
 
 ## Exécution
 
-Les commandes d'exécution seront ajoutées avec la première version
-fonctionnelle du moteur.
+Étape 1 — tournoi de base (5 parties de 200 tours, graine 42) :
+
+```
+python -m dilemme etape1
+```
+
+Options : `--graine N`, `--parties N`, `--tours N`, `--contre-soi`
+(chaque stratégie joue aussi contre son double).
+
+Étape 3 — bruit (chaque coup inversé avec une probabilité de 5 %) :
+
+```
+python -m dilemme etape1 --bruit 0.05
+```
 
 ## Tests
 
-Les commandes de test seront ajoutées avec les premiers tests automatisés.
+```
+python -m unittest -v
+```

@@ -15,6 +15,7 @@ class ConfigTournoi:
     nb_tours: int = 200          # tours par partie
     graine: int = 42             # graine aléatoire globale
     contre_soi: bool = False     # chaque stratégie joue-t-elle contre son double ?
+    bruit: float = 0.0           # probabilité d'inverser chaque coup (étape 3)
     gains: dict = field(default_factory=lambda: dict(GAINS_DILEMME))
 
 
@@ -51,7 +52,7 @@ def lancer_tournoi(fabriques: dict, config: ConfigTournoi) -> ResultatTournoi:
         for k in range(config.nb_parties):
             rng = random.Random(f"{config.graine}|{a}|{b}|{k}")
             res = jouer_partie(fabriques[a](), fabriques[b](), config.nb_tours,
-                               rng, config.gains)
+                               rng, config.gains, config.bruit)
             if a == b:
                 # Contre son double : on ne compte qu'un des deux scores.
                 scores[a][a] += res.score_a
@@ -68,7 +69,7 @@ def formater_resultats(res: ResultatTournoi) -> str:
     lignes = []
     c = res.config
     lignes.append(f"Tournoi : {c.nb_parties} parties x {c.nb_tours} tours, "
-                  f"graine={c.graine}, contre soi={c.contre_soi}")
+                  f"graine={c.graine}, contre soi={c.contre_soi}, bruit={c.bruit}")
     lignes.append("")
     lignes.append("Score de la ligne contre la colonne (somme des parties)")
     lignes.append(" " * larg + "".join(n[:8].rjust(10) for n in noms))

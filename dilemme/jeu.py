@@ -30,16 +30,26 @@ class ResultatPartie:
         return len(self.coups_a)
 
 
+def _inverser(coup: str) -> str:
+    return D if coup == C else C
+
+
 def jouer_partie(strat_a, strat_b, nb_tours: int, rng: random.Random,
-                 gains: dict = GAINS_DILEMME) -> ResultatPartie:
+                 gains: dict = GAINS_DILEMME, bruit: float = 0.0) -> ResultatPartie:
     """Fait jouer `nb_tours` tours entre deux stratégies.
 
     Les deux joueurs choisissent simultanément : chacun ne reçoit que
     l'historique des tours précédents (le sien et celui de l'adversaire).
     `rng` est la seule source d'aléa de la partie, ce qui la rend rejouable.
+
+    `bruit` : probabilité que chaque coup soit inversé après le choix de la
+    stratégie. L'historique enregistre le coup réellement joué.
     """
     strat_a.reinitialiser(random.Random(rng.random()))
     strat_b.reinitialiser(random.Random(rng.random()))
+    # Générateur séparé pour le bruit : bruit=0 donne exactement les mêmes
+    # parties qu'avant l'ajout de cette option.
+    rng_bruit = random.Random(rng.random())
     res = ResultatPartie()
     for _ in range(nb_tours):
         # Copies : une stratégie ne peut pas modifier l'historique.
@@ -47,6 +57,11 @@ def jouer_partie(strat_a, strat_b, nb_tours: int, rng: random.Random,
         coup_b = strat_b.jouer(list(res.coups_b), list(res.coups_a))
         if coup_a not in (C, D) or coup_b not in (C, D):
             raise ValueError(f"coup invalide : {coup_a!r} / {coup_b!r}")
+        if bruit > 0:
+            if rng_bruit.random() < bruit:
+                coup_a = _inverser(coup_a)
+            if rng_bruit.random() < bruit:
+                coup_b = _inverser(coup_b)
         g_a, g_b = gains[(coup_a, coup_b)]
         res.coups_a.append(coup_a)
         res.coups_b.append(coup_b)
